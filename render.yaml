@@ -1,5 +1,5 @@
 services:
-  - name: web
-    env: python3
-    build_command: pip install -r requirements.txt
-    start_command: python app.py
+  - name: app
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -b :$PORT app:app
