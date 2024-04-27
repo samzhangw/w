@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理員儀表板</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">管理員儀表板</h2>
+        <h4 class="text-center">歡迎回來，{{ username }}!</h4>
+        <div class="mt-4">
+            <h5>學生列表：</h5>
+            <form action="/input_grades" method="post">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>學生</th>
+                            <th>數學成績</th>
+                            <th>科學成績</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student, data in students.items() %}
+                        <tr>
+                            <td>{{ student }}</td>
+                            <td><input type="number" class="form-control" name="math_{{ student }}" value="{{ data.math }}"></td>
+                            <td><input type="number" class="form-control" name="science_{{ student }}" value="{{ data.science }}"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">提交成績</button>
+                    <a href="/logout" class="btn btn-danger">登出</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

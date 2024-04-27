@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學生儀表板</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">學生儀表板</h2>
+        <h4 class="text-center">歡迎回來，{{ username }}!</h4>
+        <div class="mt-4">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>科目</th>
+                        <th>成績</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>數學</td>
+                        <td>{{ grades.math }}</td>
+                    </tr>
+                    <tr>
+                        <td>科學</td>
+                        <td>{{ grades.science }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center">
+            <a href="/logout" class="btn btn-danger">登出</a>
+        </div>
+    </div>
+</body>
+</html>
