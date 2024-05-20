@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>核准請假</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        form {
+            margin-top: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .no-leaves {
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>核准請假</h1>
+    
+    <h2>尚未核准的請假</h2>
+    <ul>
+        {% for leave in leaves %}
+        {% if leave.status == 'pending' %}
+        <li>{{ leave.date }} - {{ leave.reason }}</li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+
+    <h2>已核准的請假</h2>
+    <ul>
+        {% for leave in leaves %}
+        {% if leave.status == 'approved' %}
+        <li>{{ leave.date }} - {{ leave.reason }}</li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+
+    {% if leaves|selectattr('status', 'equalto', 'pending')|list %}
+    <form action="/approve_leave" method="POST">
+        <label for="leave_id">請選擇要核准的請假：</label>
+        <select name="leave_id" id="leave_id">
+            {% for leave in leaves %}
+            {% if leave.status == 'pending' %}
+            <option value="{{ leave.id }}">{{ leave.date }} - {{ leave.reason }}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+        <button type="submit">核准</button>
+    </form>
+    {% else %}
+    <div class="no-leaves">目前沒有需要核准的請假。</div>
+    {% endif %}
+
+    <a href="/dashboard_admin">返回管理員儀表板</a>
+</body>
+</html>

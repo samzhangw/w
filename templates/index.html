@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學生管理系統</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f2ff; /* 淡藍色背景 */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8); /* 白色背景，透明度调整 */
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 2em; /* 调整标题大小 */
+        }
+
+        .link {
+            margin-top: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .link a {
+            color: #0040ff;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px; /* 调整按钮间距 */
+            display: inline; /* 将按钮变为行内元素 */
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #73d412;
+            transition: background-color 0.3s;
+        }
+
+        .link a:hover {
+            background-color: #ba5502;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>歡迎來到學生管理系統</h2>
+        <div class="link">
+            <p>請選擇登入類型：</p>
+            <a href="/student_login">學生登入</a>
+            <a href="/admin_login">管理員登入</a>
+        </div>
+        <div class="link">
+            <p>還沒有帳號？</p>
+            <a href="/register_student_page">學生註冊</a>
+            <a href="/register_admin_page">管理員註冊</a>
+        </div>
+    </div>
+</body>
+</html>

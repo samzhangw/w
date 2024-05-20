@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>已註冊學生</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            margin: 20px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-size: 1.2em;
+        }
+
+        strong {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        form {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input[type="password"] {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            padding: 8px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .last-login {
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>已註冊學生</h1>
+        <ul>
+            {% for student in students %}
+                <li>
+                    <strong>{{ student.username }}</strong>
+                    <!-- 添加修改密码的表单 -->
+                    <form action="/change_password" method="post">
+                        <input type="hidden" name="student_id" value="{{ student.id }}">
+                        <input type="password" name="new_password" placeholder="新密码">
+                        <button type="submit">修改密码</button>
+                    </form>
+                    <!-- 显示最近一次登录时间 -->
+                    <p class="last-login">最近登录时间：{{ student.last_login }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <p><a href="/dashboard_admin">返回</a></p>
+    </div>
+</body>
+</html>
