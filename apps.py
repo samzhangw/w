@@ -10,7 +10,6 @@ from datetime import datetime, time
 
 
 app = Flask(__name__)
-PORT = int(os.getenv('PORT', 5000))  # 默認綁定到5000端口，如果未設置PORT環境變數
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -389,4 +388,4 @@ def change_password():
 
 
 if __name__ == '__main__':
-     app.run(host='0.0.0.0', port=PORT)
+     app.run(host='0.0.0.0', port=5000)
