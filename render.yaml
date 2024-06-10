@@ -1,5 +1,0 @@
-services:
-  - name: app
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn -b :$PORT app:app
