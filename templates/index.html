@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會考落點分析系統</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>會考落點分析系統</h1>
+        <form id="scoreForm">
+            <div class="form-group">
+                <label for="chinese">國文:</label>
+                <input type="text" id="chinese" required>
+            </div>
+            <div class="form-group">
+                <label for="english">英文:</label>
+                <input type="text" id="english" required>
+            </div>
+            <div class="form-group">
+                <label for="math">數學:</label>
+                <input type="text" id="math" required>
+            </div>
+            <div class="form-group">
+                <label for="science">自然:</label>
+                <input type="text" id="science" required>
+            </div>
+            <div class="form-group">
+                <label for="social">社會:</label>
+                <input type="text" id="social" required>
+            </div>
+            <div class="form-group">
+                <label for="composition">作文 (0-6級):</label>
+                <input type="number" id="composition" min="0" max="6" required>
+            </div>
+            <button type="submit">提交</button>
+        </form>
+        <div id="results">
+            <h2>結果</h2>
+            <p id="totalPoints">總積分: </p>
+            <p id="totalCredits">總積點: </p>
+            <p id="eligibleSchools">符合條件的學校: </p>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
