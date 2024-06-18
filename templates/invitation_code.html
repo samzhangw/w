@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>當前邀請碼</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 1.5em;
+            color: #333;
+            letter-spacing: 2px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>當前邀請碼</h1>
+        <pre id="invitation-code"></pre>
+        <p class="footer">更新時間：<span id="update-time"></span></p>
+    </div>
+
+    <script>
+        // 定时更新邀请码和时间显示
+        function updateInvitationCode() {
+            $.getJSON('/invitation_code', function(data) {
+                $('#invitation-code').text(data.invitation_code);
+                var updateTime = new Date(data.timestamp * 1000); // Convert timestamp to milliseconds
+                var formattedTime = updateTime.toLocaleString('zh-TW');
+                $('#update-time').text(formattedTime);
+            });
+        }
+
+        // 初次加载页面时更新一次
+        $(document).ready(function() {
+            updateInvitationCode();
+            setInterval(updateInvitationCode, 5000); // 每隔5秒更新一次
+        });
+    </script>
+</body>
+</html>
