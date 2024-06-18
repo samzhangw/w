@@ -1,4 +1,8 @@
 from flask import Flask, render_template, request, jsonify
+from apscheduler.schedulers.background import BackgroundScheduler
+import random
+import string
+import time
 
 app = Flask(__name__)
 
@@ -59,32 +63,62 @@ schools = {
     '北科附工(模具科)': {'points': 23, 'credits': 13},
     '北科附工(農場經營科)': {'points': 23, 'credits': 12},
     '北科附工(園藝科)': {'points': 23, 'credits': 12},
-
 }
+
+# 當前邀請碼
+current_invitation_code = ""
+
+# 生成新邀請碼
+def generate_invitation_code():
+    global current_invitation_code
+    current_invitation_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+
+# 初始化生成邀請碼
+generate_invitation_code()
+
+# 設定定時任務每小時更新邀請碼
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=generate_invitation_code, trigger="interval", hours=1)
+scheduler.start()
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+@app.route('/invitation_code_page')
+def invitation_code_page():
+    return render_template('invitation_code.html')
+
+@app.route('/invitation_code')
+def invitation_code():
+    global current_invitation_code
+    return jsonify({'invitation_code': current_invitation_code, 'timestamp': int(time.time())})
+
 @app.route('/calculate', methods=['POST'])
 def calculate():
     data = request.get_json()
+    invitation_code = data.get('invitation_code')
+
+    if invitation_code != current_invitation_code:
+        return jsonify({'error': '无效的邀请码'}), 403
+
     chinese = data['chinese']
     english = data['english']
     math = data['math']
     science = data['science']
     social = data['social']
     composition = int(data['composition'])
+    
 
     total_points = 0
     total_credits = 0
 
     subjects = [chinese, english, math, science, social]
     for score in subjects:
-        total_points += score_to_points[score[0]]
-        total_credits += score_to_credit[score]
+        total_points += score_to_points.get(score[0], 0)
+        total_credits += score_to_credit.get(score, 0)
 
-    total_points += score_to_points['作文'][composition]
+    total_points += score_to_points['作文'].get(composition, 0)
 
     eligible_schools = []
     for school, criteria in schools.items():
