@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>成績計算</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">成績計算</h1>
+        <form id="scoreForm">
+            <div class="form-group">
+                <label for="chinese">國文:</label>
+                <select id="chinese" name="chinese" class="form-control">
+                    <option value="A++">A++</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="B++">B++</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="english">英文:</label>
+                <select id="english" name="english" class="form-control">
+                    <option value="A++">A++</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="B++">B++</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="math">數學:</label>
+                <select id="math" name="math" class="form-control">
+                    <option value="A++">A++</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="B++">B++</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="science">自然:</label>
+                <select id="science" name="science" class="form-control">
+                    <option value="A++">A++</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="B++">B++</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="social">社會:</label>
+                <select id="social" name="social" class="form-control">
+                    <option value="A++">A++</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="B++">B++</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="composition">作文:</label>
+                <select id="composition" name="composition" class="form-control">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="school_type">選擇類別:</label>
+                <select id="school_type" name="school_type" class="form-control">
+                    <option value="all">全部</option>
+                    <option value="普通科">普通科</option>
+                    <option value="職業類科">職業類科</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="invitation_code">邀請碼:</label>
+                <input type="text" id="invitation_code" name="invitation_code" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#scoreForm').on('submit', function(event) {
+                event.preventDefault();
+                var formData = {
+                    'chinese': $('#chinese').val(),
+                    'english': $('#english').val(),
+                    'math': $('#math').val(),
+                    'science': $('#science').val(),
+                    'social': $('#social').val(),
+                    'composition': $('#composition').val(),
+                    'school_type': $('#school_type').val(),
+                    'invitation_code': $('#invitation_code').val()
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/calculate',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        window.location.href = '/results?total_points=' + response.total_points + '&total_credits=' + response.total_credits + '&eligible_schools=' + encodeURIComponent(response.eligible_schools.join(','));
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error: ' + xhr.responseJSON.error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

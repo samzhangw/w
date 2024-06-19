@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>結果顯示</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">結果顯示</h1>
+        <div id="results" class="card">
+            <div class="card-body">
+                <p class="card-text">總積分: <span id="total_points" class="font-weight-bold"></span></p>
+                <p class="card-text">總積點: <span id="total_credits" class="font-weight-bold"></span></p>
+                <p class="card-text">符合學校:</p>
+                <ul id="eligible_schools" class="list-group"></ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const totalPoints = urlParams.get('total_points');
+            const totalCredits = urlParams.get('total_credits');
+            const eligibleSchools = urlParams.get('eligible_schools').split(',');
+
+            document.getElementById('total_points').textContent = totalPoints;
+            document.getElementById('total_credits').textContent = totalCredits;
+
+            const schoolsList = document.getElementById('eligible_schools');
+            eligibleSchools.forEach(function(school) {
+                let li = document.createElement('li');
+                li.textContent = school;
+                li.classList.add('list-group-item');
+                schoolsList.appendChild(li);
+            });
+        });
+    </script>
+</body>
+</html>
