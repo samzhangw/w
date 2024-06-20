@@ -40,30 +40,63 @@
             font-size: 0.8em;
             color: #666;
         }
+        .copy-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1em;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>當前邀請碼</h1>
         <pre id="invitation-code"></pre>
+        <button class="copy-button" id="copy-button">複製邀請碼</button>
         <p class="footer">更新時間：<span id="update-time"></span></p>
     </div>
 
     <script>
-        // 定时更新邀请码和时间显示
-        function updateInvitationCode() {
-            $.getJSON('/invitation_code', function(data) {
-                $('#invitation-code').text(data.invitation_code);
-                var updateTime = new Date(data.timestamp * 1000); // Convert timestamp to milliseconds
-                var formattedTime = updateTime.toLocaleString('zh-TW');
-                $('#update-time').text(formattedTime);
-            });
+        // Function to copy invitation code to clipboard
+        function copyToClipboard(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
         }
 
-        // 初次加载页面时更新一次
+        // Function to handle copying when button is clicked
         $(document).ready(function() {
+            $('#copy-button').click(function() {
+                var invitationCode = $('#invitation-code').text().trim();
+                copyToClipboard(invitationCode);
+                alert('邀請碼已複製至剪貼簿！');
+            });
+
+            // Function to update invitation code and time
+            function updateInvitationCode() {
+                $.getJSON('/invitation_code', function(data) {
+                    $('#invitation-code').text(data.invitation_code);
+                    var updateTime = new Date(data.timestamp * 1000); // Convert timestamp to milliseconds
+                    var formattedTime = updateTime.toLocaleString('zh-TW');
+                    $('#update-time').text(formattedTime);
+                });
+            }
+
+            // Initial update when the page loads
             updateInvitationCode();
-            setInterval(updateInvitationCode, 5000); // 每隔5秒更新一次
+
+            // Update invitation code and time every 5 seconds
+            setInterval(updateInvitationCode, 5000);
         });
     </script>
 </body>
